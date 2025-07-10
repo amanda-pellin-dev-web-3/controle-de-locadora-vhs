@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categorias VHS</title>
+  <link rel="stylesheet" th:href="@{/css/styles-vhs.css}" />
+</head>
+<body>
+  <div class="bg-image" aria-hidden="true"></div>
+
+  <main class="register-container">
+    <section class="register-box" style="max-width: 900px;">
+      <h1 style="text-align: center; color: var(--vhs-destaque); margin-bottom: 1.5rem;">📼 Categorias</h1>
+
+      <table class="vhs-table">
+        <thead class="vhs-thead">
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="category : ${categoryList}" class="vhs-row">
+            <td class="vhs-cell" th:text="${category.id}">1</td>
+            <td class="vhs-cell" th:text="${category.name}">Nome</td>
+            <td class="vhs-cell">
+              <a th:href="@{'/category/editar/' + ${category.id}}" class="vhs-link edit">Editar</a> |
+              <a th:href="@{'/category/deletar/' + ${category.id}}" class="vhs-link delete" onclick="return confirm('Tem certeza que deseja deletar?');">Deletar</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="vhs-btn-add">
+        <a href="/category/novo" class="register-btn">Adicionar Categoria</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles-vhs.css}">
+    <title>Cadastro - Locadora CineFita</title>
+</head>
+<body>
+    <div class="bg-image" aria-hidden="true"></div>
+    <main class="register-container" role="main">
+        <section class="register-box" aria-labelledby="register-title">
+            <h1 id="register-title">Cadastro</h1>
+            <form th:action="@{/register}" method="post" autocomplete="on" aria-describedby="register-desc">
+                <span id="register-desc" class="sr-only">Formulário de cadastro de usuário para acessar o sistema da locadora de VHS</span>
+                <div th:if="${error}" class="error-message" role="alert" th:text="${error}">
+                    <!-- Mensagem de erro será exibida aqui -->
+                </div>
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name" required autocomplete="name" aria-required="true" aria-label="Nome">
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required autocomplete="email" aria-required="true" aria-label="E-mail">
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required autocomplete="new-password" aria-required="true" aria-label="Senha">
+                </div>
+                <button type="submit" class="register-btn" aria-label="Cadastrar">Cadastrar</button>
+            </form>
+            <a th:href="@{/login}" class="login-link">Já tem uma conta? Entrar</a>
+        </section>
+    </main>
+</body>

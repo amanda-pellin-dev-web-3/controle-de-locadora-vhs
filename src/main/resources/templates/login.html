@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Locadora CineFita</title>
+  <link rel="stylesheet" th:href="@{/css/styles-vhs.css}">
+</head>
+<body>
+  <div class="bg-image" aria-hidden="true"></div>
+  <main class="register-container" role="main">
+    <section class="register-box" aria-labelledby="login-title">
+      <h1 id="login-title">Entrar</h1>
+      <form th:action="@{/login}" method="post" autocomplete="on" aria-describedby="login-desc">
+        <span id="login-desc" class="sr-only">Formulário de login para acessar o sistema da locadora de VHS</span>
+
+        <div th:if="${param.error}" class="error-message" role="alert">
+          Usuário ou senha inválidos.
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="username" required autocomplete="username" aria-required="true" aria-label="E-mail">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password" aria-required="true" aria-label="Senha">
+        </div>
+
+        <button type="submit" class="register-btn" aria-label="Entrar">Entrar</button>
+      </form>
+
+      <a th:href="@{/register}" class="login-link">Não tem uma conta? Cadastre-se</a>
+    </section>
+  </main>
+</body>
+</html>

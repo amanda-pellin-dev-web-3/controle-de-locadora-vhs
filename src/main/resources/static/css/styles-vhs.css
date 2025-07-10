@@ -1,0 +1,219 @@
+:root {
+  --vhs-fundo: #0E5959;
+  --vhs-destaque: #D98E32;
+  --vhs-marrom: #8C5D42;
+  --vhs-cafe: #400D01;
+  --vhs-vermelho: #8C260F;
+  --vhs-bege: #E8DED1;
+  --vhs-cinza: #5F5F5F;
+  --vhs-neon: #00B2CA;
+  --vhs-preto: #1B1B1B;
+  --vhs-creme: #FFF8E7;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: var(--vhs-fundo);
+}
+
+.bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('/vhs-rental-store-2.jpg') no-repeat center center;
+  background-size: cover;
+  filter: blur(4px) brightness(0.7);
+  z-index: 0;
+}
+
+.register-container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-box {
+  background: rgba(26, 21, 20, 0.92);
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(255, 140, 0, 0.2);
+  padding: 2rem 2.5rem;
+  max-width: 400px;
+  width: 100%;
+  color: var(--vhs-creme);
+}
+
+.register-box h1 {
+  color: var(--vhs-destaque);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--vhs-destaque);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1.5px solid var(--vhs-cinza);
+  border-radius: 5px;
+  background: var(--vhs-bege);
+  color: var(--vhs-cafe);
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: var(--vhs-neon);
+  outline: none;
+}
+select {
+  padding-right: 2.5rem;
+  appearance: none;   
+  background-image: url("data:image/svg+xml,%3Csvg fill='var(--vhs-cafe)' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.23 7.21a.75.75 0 011.06.02L10 11.292l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.655a.75.75 0 01-1.08 0L5.25 8.27a.75.75 0 01-.02-1.06z' /%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
+}
+.register-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--vhs-destaque);
+  color: var(--vhs-cafe);
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-sizing: border-box;
+}
+
+.register-btn:hover,
+.register-btn:focus {
+  background: var(--vhs-vermelho);
+  color: #fff;
+}
+
+.login-link {
+  display: block;
+  text-align: center;
+  margin-top: 1.2rem;
+  color: var(--vhs-destaque);
+  text-decoration: underline;
+  font-size: 1rem;
+}
+
+.login-link:hover {
+  color: var(--vhs-neon);
+}
+
+.error-message {
+  background: var(--vhs-vermelho);
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+  .register-box {
+    padding: 1.2rem 0.7rem;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+/* === LISTAGEM DE FITAS === */
+.vhs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--vhs-bege);
+  color: var(--vhs-cafe);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.vhs-thead {
+  background: var(--vhs-destaque);
+  color: var(--vhs-preto);
+}
+
+.vhs-thead th {
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.vhs-row {
+  border-bottom: 1px solid var(--vhs-marrom);
+}
+
+.vhs-cell {
+  padding: 0.6rem;
+}
+
+.vhs-img {
+  width: 60px;
+  border-radius: 4px;
+}
+
+.vhs-link {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.vhs-link.edit {
+  color: var(--vhs-neon);
+}
+
+.vhs-link.delete {
+  color: var(--vhs-vermelho);
+}
+
+.vhs-btn-add {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.vhs-btn-add a {
+  max-width: 250px;
+  display: inline-block;
+  text-decoration: none;
+}

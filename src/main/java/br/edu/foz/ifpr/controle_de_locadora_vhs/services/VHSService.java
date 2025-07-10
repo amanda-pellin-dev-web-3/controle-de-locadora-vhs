@@ -16,4 +16,8 @@ public class VHSService {
     public List<VHS> findAll() {
         return vhsRepository.findAll();
     }
+
+    public VHS save(VHS vhs) {
+        return vhsRepository.save(vhs);
+    }
 }

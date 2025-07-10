@@ -1,87 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listagem de Fitas VHS</title>
+  <link rel="stylesheet" th:href="@{/css/styles-vhs.css}" />
 </head>
 <body>
-    
-    <div class="container">
-        <h1>Listagem de Fitas VHS</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Image</th>
-                    <th>Categoria</th>
-                    <th>Data de registro</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="vhs : ${vhsList}">
-                    <td th:text="${vhs.title}">Título</td>
-                    <td th:text="${vhs.imageUrl}">Imagem</td>
-                    <td th:text="${vhs.registrationDate}">Data de registro</td>
-                    <td>Categoria</td>
-                    <td>
-                        <a th:href="@{'/vhs/editar/' + ${vhs.id}}">Editar</a> |
-                        <a th:href="@{'/vhs/deletar/' + ${vhs.id}}" onclick="return confirm('Tem certeza que deseja deletar?');">Deletar</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <a href="/vhs/novo" class="btn">Adicionar Nova Fita</a>
-    </div>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 24px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 16px;
-        }
-        th, td {
-            padding: 12px 8px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background: #f0f0f0;
-        }
-        tr:hover {
-            background: #f9f9f9;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 18px;
-            background: #1976d2;
-            color: #fff;
-            border-radius: 4px;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-        .btn:hover {
-            background: #1565c0;
-        }
-    </style>
+  <div class="bg-image" aria-hidden="true"></div>
 
+  <main class="register-container">
+    <section class="register-box" style="max-width: 900px;">
+      <h1 style="text-align: center; color: var(--vhs-destaque); margin-bottom: 1.5rem;">📼 Catálogo de Fitas</h1>
+
+      <table class="vhs-table">
+        <thead class="vhs-thead">
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Imagem</th>
+            <th>Categoria</th>
+            <th>Data de Registro</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="vhs : ${vhsList}" class="vhs-row">
+            <td class="vhs-cell" th:text="${vhs.id}">1</td>
+            <td class="vhs-cell" th:text="${vhs.title}">Título</td>
+            <td class="vhs-cell">
+              <img th:src="${vhs.imageUrl}" alt="Capa da Fita" class="vhs-img" />
+            </td>
+            <td class="vhs-cell" th:text="${vhs.category}">Ação</td>
+            <td class="vhs-cell" th:text="${#dates.format(vhs.registrationDate, 'dd/MM/yyyy')}">01/01/1997</td>
+            <td class="vhs-cell">
+              <a th:href="@{'/vhs/editar/' + ${vhs.id}}" class="vhs-link edit">Editar</a> |
+              <a th:href="@{'/vhs/deletar/' + ${vhs.id}}" class="vhs-link delete" onclick="return confirm('Tem certeza que deseja deletar?');">Deletar</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="vhs-btn-add">
+        <a href="/vhs/novo" class="register-btn">Adicionar Nova Fita</a>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
