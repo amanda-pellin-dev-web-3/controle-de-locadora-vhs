@@ -26,15 +26,15 @@
             <td class="vhs-cell" th:text="${category.id}">1</td>
             <td class="vhs-cell" th:text="${category.name}">Nome</td>
             <td class="vhs-cell">
-              <a th:href="@{'/category/editar/' + ${category.id}}" class="vhs-link edit">Editar</a> |
-              <a th:href="@{'/category/deletar/' + ${category.id}}" class="vhs-link delete" onclick="return confirm('Tem certeza que deseja deletar?');">Deletar</a>
+              <a th:href="@{'/category/edit/' + ${category.id}}" class="vhs-link edit">Editar</a> |
+              <a th:href="@{'/category/delete/' + ${category.id}}" class="vhs-link delete" onclick="return confirm('Tem certeza que deseja deletar?');">Deletar</a>
             </td>
           </tr>
         </tbody>
       </table>
 
       <div class="vhs-btn-add">
-        <a href="/category/novo" class="register-btn">Adicionar Categoria</a>
+        <a href="/category/new" class="register-btn">Adicionar Categoria</a>
       </div>
     </section>
   </main>

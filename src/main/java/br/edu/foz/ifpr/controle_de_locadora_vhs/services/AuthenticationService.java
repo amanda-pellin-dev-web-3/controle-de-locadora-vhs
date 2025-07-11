@@ -25,4 +25,8 @@ public class AuthenticationService {
         return user; 
 
     }
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+// 
 }

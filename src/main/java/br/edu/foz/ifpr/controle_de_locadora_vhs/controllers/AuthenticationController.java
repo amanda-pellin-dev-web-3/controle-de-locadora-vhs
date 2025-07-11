@@ -28,10 +28,10 @@ public class AuthenticationController {
     public String login(@RequestParam String email, @RequestParam String password, HttpSession session, RedirectAttributes model) {
         
         try{
-
-            User user = authenticationService.login(email, password);
+            authenticationService.login(email, password);
+            User user = authenticationService.getUserRepository().findByEmail(email).orElseThrow(() -> new Exception("Usuário não encontrado"));
             session.setAttribute("usuarioLogado", user);
-            return "redirect:/home";
+            return "redirect:/vhs";
         } catch (Exception e) {
             model.addFlashAttribute("error", e.getMessage());
             return "redirect:/login";

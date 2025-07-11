@@ -2,6 +2,7 @@
 
 **Lembrar de ajustar o aplication.properties**
 
+
 ## Sobre o Projeto
 
 Este projeto é um sistema web para controle de locadora de fitas VHS, desenvolvido como atividade avaliativa. O objetivo é permitir o cadastro, listagem e gerenciamento de fitas VHS, categorias, usuários e empréstimos.
@@ -25,8 +26,13 @@ Este projeto é um sistema web para controle de locadora de fitas VHS, desenvolv
 ### Processo de Desenvolvimento
 
 O desenvolvimento seguiu as etapas:
-1. Definição das entidades principais (VHS, Category, User, Loan, TapeStatus)
-2. Criação dos repositórios, serviços e controllers para cada entidade
+1. Definição das entidades principais
+2. Criação dos repositórios, serviços e controllers para cada entidade:
+   - Para integridade do sistema, foram implementados métodos de autenticação e definição de papéis para os usuários (Admin e Cliente).
+   - Para cadastro, atualização e exclusão de fitas e categorias, somente o ADMIN poderá efetuar essas ações.
+   - Qualquer pessoa pode se cadastrar no site, porém sempre será atribuído CLIENTE para o seu tipo de usuário.
+   - Somente o ADMIN pode alterar as informações do cliente e promover seu acesso (de cliente para admin).
+   - Somente um admin pode excluir um cliente.
 3. Implementação das telas com Thymeleaf e integração com o backend
 4. Configuração do banco de dados MySQL e propriedades do projeto
 5. Testes das funcionalidades principais

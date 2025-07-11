@@ -11,7 +11,7 @@
     <main class="register-container" role="main">
         <section class="register-box" aria-labelledby="vhs-form-title">
             <h1 id="vhs-form-title">Cadastrar Fita VHS</h1>
-            <form th:action="@{/vhs/novo}" method="post" autocomplete="on" aria-describedby="vhs-form-desc">
+            <form th:action="@{/vhs/new}" method="post" autocomplete="on" aria-describedby="vhs-form-desc">
                 <span id="vhs-form-desc" class="sr-only">Formulário para cadastrar uma nova fita VHS</span>
                 <div th:if="${error}" class="error-message" role="alert" th:text="${error}">
                     <!-- Mensagem de erro será exibida aqui -->
