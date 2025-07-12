@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.foz.ifpr.controle_de_locadora_vhs.entities.Category;
+import br.edu.foz.ifpr.controle_de_locadora_vhs.entities.User;
+import br.edu.foz.ifpr.controle_de_locadora_vhs.enums.UserRole;
 import br.edu.foz.ifpr.controle_de_locadora_vhs.services.CategoryService;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,22 +53,35 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/editar/{id}")
-    public String formEditCategory(@PathVariable Long id, Model model) {
-        List<Category> categoryList = categoryService.findAll();
-        for (Category category : categoryList) {
-            if (category.getId().equals(id)) {
-                model.addAttribute("category", category);
-                return "category-form";
-            }
+    @GetMapping("/edit/{id}")
+    public String formEditCategory(@PathVariable Long id, Model model, HttpSession session) {
+        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
+        if (usuarioLogado == null || usuarioLogado.getRole() != UserRole.ADMIN) {
+            model.addAttribute("error", "Apenas administradores podem editar categorias.");
+            return "redirect:/login";
         }
-        return "redirect:/category";
+        try {
+            Category category = categoryService.findById(id)
+                .orElseThrow(() -> new Exception("Categoria não encontrada"));
+            model.addAttribute("category", category);
+            model.addAttribute("isEdit", true); // Flag para indicar que é edição
+            return "category-form";
+        } catch (Exception e) {
+            model.addAttribute("error", "Categoria não encontrada.");
+            return "redirect:/category";
+        }
     }
 
-    @PostMapping("/editar/{id}")
-    public String editCategory(Category category, RedirectAttributes model) {
+    @PostMapping("/edit/{id}")
+    public String editCategory(@PathVariable Long id, Category category, HttpSession session, RedirectAttributes model) {
+        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
+        if (usuarioLogado == null || usuarioLogado.getRole() != UserRole.ADMIN) {
+            model.addFlashAttribute("error", "Apenas administradores podem editar categorias.");
+            return "redirect:/login";
+        }
+        
         try {
-            Category existingCategory = categoryService.findById(category.getId())
+            Category existingCategory = categoryService.findById(id)
                 .orElseThrow(() -> new Exception("Categoria não encontrada"));
             existingCategory.setName(category.getName());
             categoryService.save(existingCategory);
@@ -74,6 +91,21 @@ public class CategoryController {
         }
         return "redirect:/category";
     }
-
+    
+    @PostMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable Long id, HttpSession session, RedirectAttributes model) {
+        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
+        if (usuarioLogado == null || usuarioLogado.getRole() != UserRole.ADMIN) {
+            model.addFlashAttribute("error", "Apenas administradores podem excluir fitas VHS.");
+            return "redirect:/login";
+        }
+        try {
+            categoryService.deleteById(id);
+            model.addFlashAttribute("success", "Categoria excluída com sucesso!");
+        } catch (Exception e) {
+            model.addFlashAttribute("error", "Erro ao excluir categoria: " + e.getMessage());
+        }
+        return "redirect:/category";
+    }
     
 }

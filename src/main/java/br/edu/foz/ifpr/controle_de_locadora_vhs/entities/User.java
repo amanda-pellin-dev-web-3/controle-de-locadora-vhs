@@ -3,6 +3,7 @@ package br.edu.foz.ifpr.controle_de_locadora_vhs.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.foz.ifpr.controle_de_locadora_vhs.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

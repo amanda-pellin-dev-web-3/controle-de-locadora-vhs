@@ -12,19 +12,16 @@ import br.edu.foz.ifpr.controle_de_locadora_vhs.repositories.UserRepository;
 
 @Service
 public class UserService {
-    
+
     @Autowired
     UserRepository userRepository;
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    
-    public List<User> findAll(){
+
+    public List<User> findAll() {
         List<User> users = userRepository.findAll();
-        if (users.isEmpty()) {
-            throw new IllegalArgumentException("Nenhum usuário encontrado.");
-        }
         return users;
     }
-    
+
     public Optional<User> findByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
@@ -34,7 +31,7 @@ public class UserService {
     }
 
     public Optional<User> findById(Long id) {
-        Optional <User> user = userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new IllegalArgumentException("Usuário não encontrado.");
         }
@@ -43,7 +40,7 @@ public class UserService {
 
     public void saveUser(User user) {
 
-        if(userRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new IllegalArgumentException("E-mail já cadastrado");
         }
         if (user.getName() == null || user.getName().isBlank()) {
@@ -66,5 +63,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("Usuário não encontrado.");
+        }
+        userRepository.deleteById(id);
+    }
 
 }

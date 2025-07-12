@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit != null && isEdit ? 'Editar Empréstimo' : 'Cadastrar Empréstimo'} + ' - Locadora CineFita'">Cadastrar Empréstimo - Locadora CineFita</title>
+    <link rel="stylesheet" th:href="@{/css/styles-vhs.css}">
+</head>
+<body>
+    <div class="bg-image" aria-hidden="true"></div>
+    <main class="register-container" role="main">
+        <section class="register-box" aria-labelledby="loan-form-title">
+            <h1 id="loan-form-title" th:text="${isEdit != null && isEdit ? 'Editar Empréstimo' : 'Cadastrar Empréstimo'}">Cadastrar Empréstimo</h1>
+            
+            <form th:action="${isEdit != null && isEdit ? '/loan/edit/' + loan.id : '/loan/new'}" 
+                  method="post" 
+                  autocomplete="on" 
+                  aria-describedby="loan-form-desc">
+                <span id="loan-form-desc" class="sr-only" 
+                      th:text="${isEdit != null && isEdit ? 'Formulário para editar um empréstimo' : 'Formulário para cadastrar um novo empréstimo de fitas VHS'}">
+                    Formulário para cadastrar um novo empréstimo de fitas VHS
+                </span>
+                
+                <div th:if="${error}" class="error-message" role="alert" th:text="${error}"></div>
+                <div th:if="${success}" class="success-message" role="alert" th:text="${success}"></div>
+                
+                <!-- Usuário - só editável em modo de cadastro -->
+                <div class="form-group">
+                    <label for="userId">Usuário</label>
+                    <select id="userId" 
+                            name="userId" 
+                            required 
+                            aria-required="true" 
+                            aria-label="Usuário" 
+                            th:disabled="${isEdit != null && isEdit}">
+                        <option value="" disabled th:selected="${loan == null}">Selecione o usuário</option>
+                        <option th:each="user : ${users}" 
+                                th:value="${user.id}" 
+                                th:text="${user.name}"
+                                th:selected="${loan != null && loan.user.id == user.id}">
+                        </option>
+                    </select>
+                </div>
+                
+                <!-- Fitas VHS - só editável em modo de cadastro -->
+                <div class="form-group">
+                    <label>Fitas VHS</label>
+                    <div class="checkbox-group" style="max-height: 200px; overflow-y: auto; border: 1.5px solid var(--vhs-cinza); border-radius: 5px; padding: 0.5rem;">
+                        <div th:each="vhs : ${vhsList}" class="checkbox-item" style="margin-bottom: 0.5rem;">
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" 
+                                    name="vhsIds" 
+                                    th:value="${vhs.id}"
+                                    th:checked="${loan != null && #lists.contains(loan.vhsList, vhs)}"
+                                    th:disabled="${isEdit != null && isEdit}"
+                                    style="margin-right: 0.5rem;">
+                                <span th:text="${vhs.title}">Título da Fita</span>
+                            </label>
+                        </div>
+                    </div>
+                    <small class="form-help">
+                        Selecione as fitas que serão emprestadas
+                    </small>
+                </div>
+                                
+                <!-- Data do Empréstimo - só editável em modo de cadastro -->
+                <div class="form-group">
+                    <label for="dataEmprestimo">Data do Empréstimo</label>
+                    <input type="date" 
+                           id="dataEmprestimo" 
+                           name="dataEmprestimo" 
+                           th:value="${loan != null ? loan.dataEmprestimo : ''}"
+                           required 
+                           aria-required="true" 
+                           th:readonly="${isEdit != null && isEdit}">
+                </div>
+                
+                <!-- Data de Devolução - sempre editável -->
+                <div class="form-group">
+                    <label for="dataDevolucao">Data de Devolução</label>
+                    <input type="date" 
+                           id="dataDevolucao" 
+                           name="dataDevolucao" 
+                           th:value="${loan != null ? loan.dataDevolucao : ''}"
+                           required 
+                           aria-required="true">
+                </div>
+                
+                <button type="submit" 
+                        class="register-btn" 
+                        th:text="${isEdit != null && isEdit ? 'Atualizar' : 'Cadastrar'}"
+                        aria-label="Salvar Empréstimo">
+                    Cadastrar
+                </button>
+            </form>
+            
+            <a th:href="@{/loan}" class="login-link">Voltar para listagem</a>
+        </section>
+    </main>
+</body>
+</html>

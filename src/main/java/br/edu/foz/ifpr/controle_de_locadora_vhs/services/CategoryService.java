@@ -29,4 +29,11 @@ public class CategoryService {
         }
         return categoryRepository.save(category);
     }
+    
+    public void deleteById(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new IllegalArgumentException("Categoria não encontrada.");
+        }
+        categoryRepository.deleteById(id);
+    }
 }

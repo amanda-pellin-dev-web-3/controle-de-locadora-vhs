@@ -2,6 +2,7 @@ package br.edu.foz.ifpr.controle_de_locadora_vhs.entities;
 
 import java.time.LocalDate;
 
+import br.edu.foz.ifpr.controle_de_locadora_vhs.enums.TapeStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

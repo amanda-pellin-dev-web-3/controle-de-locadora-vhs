@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usuários - Locadora CineFita</title>
+  <link rel="stylesheet" th:href="@{/css/styles-vhs.css}" />
+</head>
+<body>
+  <div class="bg-image" aria-hidden="true"></div>
+  <main class="register-container">
+    <section class="register-box" style="max-width: 900px;">
+      <h1 style="text-align: center; color: var(--vhs-destaque); margin-bottom: 1.5rem;">👤 Usuários do Sistema</h1>
+      <div th:if="${error}" class="error-message" role="alert" th:text="${error}"></div>
+      <div th:if="${success}" class="success-message" role="alert" th:text="${success}"></div>
+      <table class="vhs-table">
+        <thead class="vhs-thead">
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Tipo de Usuário</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="user : ${users}" class="vhs-row">
+            <td class="vhs-cell" th:text="${user.id}">1</td>
+            <td class="vhs-cell" th:text="${user.name}">Nome</td>
+            <td class="vhs-cell" th:text="${user.email}">email@exemplo.com</td>
+            <td class="vhs-cell" th:text="${user.role}">CLIENTE</td>
+            <td class="vhs-cell">
+              <a th:href="@{'/edit/' + ${user.id}}" class="vhs-link edit">Editar</a>
+              |
+              <form th:action="@{'/delete/' + ${user.id}}" method="post" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');">
+                <button type="submit" class="vhs-link delete" style="background: none; border: none; color: var(--vhs-vermelho); font-weight: bold; cursor: pointer; text-decoration: none;">Excluir</button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="vhs-btn-add">
+        <a th:href="@{/register}" class="register-btn">Adicionar Novo Usuário</a>
+      </div>
+      <a th:href="@{/admin}" class="login-link">Voltar para área administrativa</a>
+    </section>
+  </main>
+</body>
+</html>

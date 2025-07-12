@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Empréstimos - Locadora CineFita</title>
+    <link rel="stylesheet" th:href="@{/css/styles-vhs.css}" />
+  </head>
+  <body>
+    <div class="bg-image" aria-hidden="true"></div>
+
+    <main class="register-container">
+      <section class="register-box" style="max-width: 1000px">
+        <h1
+          style="
+            text-align: center;
+            color: var(--vhs-destaque);
+            margin-bottom: 1.5rem;
+          "
+        >
+          📋 Empréstimos Ativos
+        </h1>
+
+        <div
+          th:if="${error}"
+          class="error-message"
+          role="alert"
+          th:text="${error}"
+        ></div>
+        <div
+          th:if="${success}"
+          class="success-message"
+          role="alert"
+          th:text="${success}"
+        ></div>
+
+        <table class="vhs-table">
+          <thead class="vhs-thead">
+            <tr>
+              <th>ID</th>
+              <th>Usuário</th>
+              <th>Fitas VHS</th>
+              <th>Data Empréstimo</th>
+              <th>Data Devolução</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="loan : ${loanList}" class="vhs-row">
+              <td class="vhs-cell" th:text="${loan.id}">1</td>
+              <td class="vhs-cell" th:text="${loan.user.name}">
+                Nome do Usuário
+              </td>
+              <td class="vhs-cell">
+                <span
+                  th:each="vhs, iterStat : ${loan.vhsList}"
+                  th:text="${vhs.title + (iterStat.last ? '' : ', ')}"
+                >
+                  Título da Fita
+                </span>
+              </td>
+              <td
+                class="vhs-cell"
+                th:text="${loan.dataEmprestimo != null ? #temporals.format(loan.dataEmprestimo, 'dd/MM/yyyy') : '-'}"
+              >
+                01/01/2024
+              </td>
+              <td
+                class="vhs-cell"
+                th:text="${loan.dataDevolucao != null ? #temporals.format(loan.dataDevolucao, 'dd/MM/yyyy') : '-'}"
+              >
+                08/01/2024
+              </td>
+              <td class="vhs-cell">
+                <span
+                  th:if="${loan.dataDevolucao.isBefore(T(java.time.LocalDate).now())}"
+                  style="color: var(--vhs-vermelho); font-weight: bold"
+                  >Atrasado</span
+                >
+                <span
+                  th:unless="${loan.dataDevolucao.isBefore(T(java.time.LocalDate).now())}"
+                  style="color: var(--vhs-neon); font-weight: bold"
+                  >Em dia</span
+                >
+              </td>
+              <td class="vhs-cell">
+                <a th:href="@{'/loan/edit/' + ${loan.id}}" class="vhs-link edit"
+                  >Editar</a
+                >
+                |
+                <a
+                  th:href="@{'/loan/return/' + ${loan.id}}"
+                  class="vhs-link edit"
+                  >Devolver</a
+                >
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(loanList)}" class="vhs-row">
+              <td
+                colspan="7"
+                class="vhs-cell"
+                style="
+                  text-align: center;
+                  font-style: italic;
+                  color: var(--vhs-cinza);
+                "
+              >
+                Nenhum empréstimo encontrado
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="vhs-btn-add">
+          <a th:href="@{/loan/new}" class="register-btn">Novo Empréstimo</a>
+          <a th:href="@{/admin}" class="register-btn">Voltar</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

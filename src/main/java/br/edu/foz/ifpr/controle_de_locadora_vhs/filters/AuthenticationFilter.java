@@ -15,12 +15,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Component
-public class AuthenticationFilter implements Filter{
-    
+public class AuthenticationFilter implements Filter {
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
-            
+            throws IOException, ServletException {
+
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -32,13 +32,14 @@ public class AuthenticationFilter implements Filter{
 
         String uri = httpRequest.getRequestURI();
 
-        Boolean acessoLiberado =
-            uri.startsWith("/css")
+    Boolean acessoLiberado = uri.startsWith("/css")
             || uri.startsWith("/login")
             || uri.startsWith("/register")
-            || uri.startsWith("/vhs")
-            || uri.startsWith("/vhs/novo")
-            || uri.endsWith(".jpg"); 
+            || uri.startsWith("/logout")
+            || uri.endsWith(".jpg")
+            || uri.endsWith(".png")
+            || uri.endsWith(".css")
+            || uri.endsWith(".js");
 
         if (acessoLiberado || user != null) {
             chain.doFilter(httpRequest, httpResponse);

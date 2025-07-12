@@ -4,42 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/styles-vhs.css}">
-    <title>Cadastro - Locadora CineFita</title>
+    <title>Editar Usuário - Locadora CineFita</title>
 </head>
 <body>
     <div class="bg-image" aria-hidden="true"></div>
     <main class="register-container" role="main">
-        <section class="register-box" aria-labelledby="register-title">
-            <h1 id="register-title">Cadastro</h1>
-            <form th:action="@{/register}" method="post" autocomplete="on" aria-describedby="register-desc">
-                <span id="register-desc" class="sr-only">Formulário de cadastro de usuário para acessar o sistema da locadora de VHS</span>
-                <div th:if="${error}" class="error-message" role="alert" th:text="${error}">
-                    <!-- Mensagem de erro será exibida aqui -->
-                </div>
+        <section class="register-box" aria-labelledby="edit-title">
+            <h1 id="edit-title">Alterar Papel do Usuário</h1>
+            
+            <form th:action="@{'/edit/' + ${user.id}}" method="post" autocomplete="on">
+                <div th:if="${error}" class="error-message" role="alert" th:text="${error}"></div>
+                <div th:if="${success}" class="success-message" role="alert" th:text="${success}"></div>
+
                 <div class="form-group">
-                    <label for="name">Nome</label>
-                    <input type="text" id="name" name="name" required autocomplete="name" aria-required="true" aria-label="Nome">
+                    <label for="userName">Nome do Usuário</label>
+                    <input type="text" 
+                           id="userName" 
+                           th:value="${user.name}"
+                           readonly 
+                           style="background-color: #f0f0f0; cursor: not-allowed;">
                 </div>
+                
                 <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" required autocomplete="email" aria-required="true" aria-label="E-mail">
+                    <label for="userEmail">E-mail</label>
+                    <input type="email" 
+                           id="userEmail" 
+                           th:value="${user.email}"
+                           readonly 
+                           style="background-color: #f0f0f0; cursor: not-allowed;">
                 </div>
-                <div class="form-group">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" name="password" required autocomplete="new-password" aria-required="true" aria-label="Senha">
-                </div>
+                
                 <div class="form-group">
                     <label for="role">Tipo de Usuário</label>
-                    <select id="role" name="role" required aria-required="true" aria-label="Tipo de Usuário">
-                        <option value="" disabled selected>Selecione um tipo de usuário</option>
-                        <option th:each="role : ${userRoles}" 
-                                th:value="${role}" 
-                                th:text="${role}" ></option>
+                    <select id="role" name="role" required aria-required="true">
+                        <option th:each="userRole : ${userRoles}" 
+                                th:value="${userRole}" 
+                                th:text="${userRole}"
+                                th:selected="${user.role == userRole}">
+                        </option>
                     </select>
                 </div>
-                <button type="submit" class="register-btn" aria-label="Cadastrar">Atualizar</button>
+                
+                <button type="submit" class="register-btn">Atualizar Papel</button>
             </form>
-            <a th:href="@{/login}" class="login-link">Já tem uma conta? Entrar</a>
+            
+            <a th:href="@{/users}" class="login-link">Voltar para listagem</a>
         </section>
     </main>
 </body>
+</html>

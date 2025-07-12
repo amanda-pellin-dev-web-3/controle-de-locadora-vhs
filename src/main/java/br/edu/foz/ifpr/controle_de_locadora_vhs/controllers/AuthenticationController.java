@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import br.edu.foz.ifpr.controle_de_locadora_vhs.entities.User;
+import br.edu.foz.ifpr.controle_de_locadora_vhs.enums.UserRole;
 import br.edu.foz.ifpr.controle_de_locadora_vhs.services.AuthenticationService;
 import jakarta.servlet.http.HttpSession;
 
@@ -31,7 +32,11 @@ public class AuthenticationController {
             authenticationService.login(email, password);
             User user = authenticationService.getUserRepository().findByEmail(email).orElseThrow(() -> new Exception("Usuário não encontrado"));
             session.setAttribute("usuarioLogado", user);
-            return "redirect:/vhs";
+            if (user.getRole() == UserRole.ADMIN) {
+                return "redirect:/admin";
+            } else {
+                return "redirect:/home";
+            }
         } catch (Exception e) {
             model.addFlashAttribute("error", e.getMessage());
             return "redirect:/login";

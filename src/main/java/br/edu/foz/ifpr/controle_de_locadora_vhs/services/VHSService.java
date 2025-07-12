@@ -40,4 +40,10 @@ public class VHSService {
         }
         return vhsRepository.save(vhs);
     }
+    public void deleteById(Long id) {
+        if (!vhsRepository.existsById(id)) {
+            throw new IllegalArgumentException("Fita VHS não encontrada.");
+        }
+        vhsRepository.deleteById(id);    
+    }
 }

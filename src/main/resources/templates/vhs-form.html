@@ -3,52 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Fita VHS - Locadora CineFita</title>
+    <title th:text="${isEdit != null && isEdit ? 'Editar Fita VHS' : 'Cadastrar Fita VHS'} + ' - Locadora CineFita'">Cadastrar Fita VHS - Locadora CineFita</title>
     <link rel="stylesheet" th:href="@{/css/styles-vhs.css}">
 </head>
 <body>
     <div class="bg-image" aria-hidden="true"></div>
     <main class="register-container" role="main">
         <section class="register-box" aria-labelledby="vhs-form-title">
-            <h1 id="vhs-form-title">Cadastrar Fita VHS</h1>
-            <form th:action="@{/vhs/new}" method="post" autocomplete="on" aria-describedby="vhs-form-desc">
-                <span id="vhs-form-desc" class="sr-only">Formulário para cadastrar uma nova fita VHS</span>
-                <div th:if="${error}" class="error-message" role="alert" th:text="${error}">
-                    <!-- Mensagem de erro será exibida aqui -->
-                </div>
+            <h1 id="vhs-form-title" th:text="${isEdit != null && isEdit ? 'Editar Fita VHS' : 'Cadastrar Fita VHS'}">Cadastrar Fita VHS</h1>
+            
+            <form th:action="${isEdit != null && isEdit ? '/vhs/edit/' + vhs.id : '/vhs/new'}" 
+                  method="post" 
+                  autocomplete="on" 
+                  aria-describedby="vhs-form-desc">
+                <span id="vhs-form-desc" class="sr-only" 
+                      th:text="${isEdit != null && isEdit ? 'Formulário para editar uma fita VHS' : 'Formulário para cadastrar uma nova fita VHS'}">
+                  Formulário para cadastrar uma nova fita VHS
+                </span>
+                
+                <div th:if="${error}" class="error-message" role="alert" th:text="${error}"></div>
+                <div th:if="${success}" class="success-message" role="alert" th:text="${success}"></div>
+
                 <div class="form-group">
                     <label for="title">Título</label>
-                    <input type="text" id="title" name="title" required autocomplete="off" aria-required="true" aria-label="Título">
+                    <input type="text" 
+                           id="title" 
+                           name="title" 
+                           th:value="${vhs != null ? vhs.title : ''}"
+                           required 
+                           autocomplete="off" 
+                           aria-required="true" 
+                           aria-label="Título">
                 </div>
+                
                 <div class="form-group">
                     <label for="imageUrl">URL da Imagem (opcional)</label>
-                    <input type="text" id="imageUrl" name="imageUrl" autocomplete="off" aria-label="URL da Imagem">
+                    <input type="text" 
+                           id="imageUrl" 
+                           name="imageUrl" 
+                           th:value="${vhs != null ? vhs.imageUrl : ''}"
+                           autocomplete="off" 
+                           aria-label="URL da Imagem">
                 </div>
+                
                 <div class="form-group">
                     <label for="director">Diretor</label>
-                    <input type="text" id="director" name="director" required autocomplete="off" aria-required="true" aria-label="Diretor">
+                    <input type="text" 
+                           id="director" 
+                           name="director" 
+                           th:value="${vhs != null ? vhs.director : ''}"
+                           required 
+                           autocomplete="off" 
+                           aria-required="true" 
+                           aria-label="Diretor">
                 </div>
+                
                 <div class="form-group">
                     <label for="registrationDate">Data de Registro</label>
-                    <input type="date" id="registrationDate" name="registrationDate" required aria-required="true" aria-label="Data de Registro">
+                    <input type="date" 
+                           id="registrationDate" 
+                           name="registrationDate" 
+                           th:value="${vhs != null ? vhs.registrationDate : ''}"
+                           required 
+                           aria-required="true" 
+                           aria-label="Data de Registro">
                 </div>
+                
                 <div class="form-group">
                     <label for="category">Categoria</label>
                     <select id="category" name="category" required aria-required="true" aria-label="Categoria">
-                        <option value="" disabled selected>Selecione</option>
-                        <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat.name}"></option>
+                        <option value="" disabled th:selected="${vhs == null}">Selecione</option>
+                        <option th:each="cat : ${categories}" 
+                                th:value="${cat.id}" 
+                                th:text="${cat.name}"
+                                th:selected="${vhs != null && vhs.category != null && vhs.category.id == cat.id}">
+                        </option>
                     </select>
                 </div>
+                
                 <div class="form-group">
                     <label for="tapeStatus">Status</label>
                     <select id="tapeStatus" name="tapeStatus" required aria-required="true" aria-label="Status">
-                        <option value="" disabled selected>Selecione</option>
-                        <option th:each="status : ${tapeStatusList}" th:value="${status}" th:text="${status}"></option>
+                        <option value="" disabled th:selected="${vhs == null}">Selecione</option>
+                        <option th:each="status : ${tapeStatusList}" 
+                                th:value="${status}" 
+                                th:text="${status}"
+                                th:selected="${vhs != null && vhs.status == status}">
+                        </option>
                     </select>
                 </div>
-                <button type="submit" class="register-btn" aria-label="Cadastrar Fita">Cadastrar</button>
+                
+                <button type="submit" 
+                        class="register-btn" 
+                        th:text="${isEdit != null && isEdit ? 'Atualizar' : 'Cadastrar'}"
+                        aria-label="Salvar Fita VHS">
+                    Cadastrar
+                </button>
             </form>
+            
             <a th:href="@{/vhs}" class="login-link">Voltar para listagem</a>
         </section>
     </main>
 </body>
+</html>

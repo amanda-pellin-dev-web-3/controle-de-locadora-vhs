@@ -1,28 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorias - Locadora CineFita</title>
-    <link rel="stylesheet" th:href="@{/css/styles-vhs.css}">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${isEdit != null && isEdit ? 'Editar Categoria' : 'Cadastrar Categoria'} + ' - Locadora CineFita'">Categorias - Locadora CineFita</title>
+    <link rel="stylesheet" th:href="@{/css/styles-vhs.css}" />
+  </head>
+  <body>
     <div class="bg-image" aria-hidden="true"></div>
     <main class="register-container" role="main">
-        <section class="register-box" aria-labelledby="category-form-title">
-            <h1 id="vhs-form-title">Cadastrar Categoria</h1>
-            <form th:action="@{/category/new}" method="post" autocomplete="on" aria-describedby="vhs-form-desc">
-                <span id="vhs-form-desc" class="sr-only">Formulário para cadastrar uma nova categoria</span>
-                <div th:if="${error}" class="error-message" role="alert" th:text="${error}">
-                    <!-- Mensagem de erro será exibida aqui -->
-                </div>
-                <div class="form-group">
-                    <label for="title">Nome</label>
-                    <input type="text" id="title" name="title" required autocomplete="off" aria-required="true" aria-label="Título">
-                </div>
-                <button type="submit" class="register-btn" aria-label="Cadastrar Categoria">Cadastrar</button>
-            </form>
-            <a th:href="@{/category}" class="login-link">Voltar para listagem</a>
-        </section>
+      <section class="register-box" aria-labelledby="category-form-title">
+        <h1 id="category-form-title" th:text="${isEdit != null && isEdit ? 'Editar Categoria' : 'Cadastrar Categoria'}">Cadastrar Categoria</h1>
+        <form th:action="${isEdit != null && isEdit ? '/category/edit/' + category.id : '/category/new'}" 
+              method="post" 
+              autocomplete="on" 
+              aria-describedby="category-form-desc">
+          <span id="category-form-desc" class="sr-only"
+                th:text="${isEdit != null && isEdit ? 'Formulário para editar uma categoria' : 'Formulário para cadastrar uma nova categoria'}">
+            Formulário para cadastrar uma nova categoria
+          </span>
+          
+          <div th:if="${error}" class="error-message" role="alert" th:text="${error}"></div>
+          <div th:if="${success}" class="success-message" role="alert" th:text="${success}"></div>
+
+          <div class="form-group">
+            <label for="name">Nome</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              th:value="${category != null ? category.name : ''}"
+              required
+              autocomplete="off"
+              aria-required="true"
+              aria-label="Nome"
+            />
+          </div>
+          <button
+            type="submit"
+            class="register-btn"
+            th:text="${isEdit != null && isEdit ? 'Atualizar' : 'Cadastrar'}"
+            aria-label="Salvar Categoria"
+          >
+            Cadastrar
+          </button>
+        </form>
+        <a th:href="@{/category}" class="login-link">Voltar para listagem</a>
+      </section>
     </main>
-</body>
+  </body>
+</html>

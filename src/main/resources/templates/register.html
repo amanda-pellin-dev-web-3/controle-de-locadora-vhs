@@ -14,8 +14,8 @@
             <form th:action="@{/register}" method="post" autocomplete="on" aria-describedby="register-desc">
                 <span id="register-desc" class="sr-only">Formulário de cadastro de usuário para acessar o sistema da locadora de VHS</span>
                 <div th:if="${error}" class="error-message" role="alert" th:text="${error}">
-                    <!-- Mensagem de erro será exibida aqui -->
                 </div>
+                <div th:if="${success}" class="success-message" role="alert" th:text="${success}"></div>
                 <div class="form-group">
                     <label for="name">Nome</label>
                     <input type="text" id="name" name="name" required autocomplete="name" aria-required="true" aria-label="Nome">
