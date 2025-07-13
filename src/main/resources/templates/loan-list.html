@@ -70,30 +70,47 @@
                 class="vhs-cell"
                 th:text="${loan.dataDevolucao != null ? #temporals.format(loan.dataDevolucao, 'dd/MM/yyyy') : '-'}"
               >
-                08/01/2024
+                15/01/2024
               </td>
-              <td class="vhs-cell">
-                <span
-                  th:if="${loan.dataDevolucao.isBefore(T(java.time.LocalDate).now())}"
-                  style="color: var(--vhs-vermelho); font-weight: bold"
-                  >Atrasado</span
-                >
-                <span
-                  th:unless="${loan.dataDevolucao.isBefore(T(java.time.LocalDate).now())}"
-                  style="color: var(--vhs-neon); font-weight: bold"
-                  >Em dia</span
-                >
+              <td
+                class="vhs-cell"
+                th:text="${loan.devolvido != null && loan.devolvido ? 'Devolvido' : 'Ativo'}"
+              >
+                Ativo
               </td>
               <td class="vhs-cell">
                 <a th:href="@{'/loan/edit/' + ${loan.id}}" class="vhs-link edit"
                   >Editar</a
                 >
                 |
-                <a
-                  th:href="@{'/loan/return/' + ${loan.id}}"
-                  class="vhs-link edit"
-                  >Devolver</a
+                <form
+                  th:if="${loan.devolvido == null || !loan.devolvido}"
+                  th:action="@{'/loan/return/' + ${loan.id}}"
+                  method="post"
+                  style="display: inline"
+                  onsubmit="return confirm('Tem certeza que deseja devolver este empréstimo?');"
                 >
+                  <button
+                    type="submit"
+                    class="vhs-link return"
+                    style="
+                      background: none;
+                      border: none;
+                      color: var(--vhs-vermelho);
+                      font-weight: bold;
+                      cursor: pointer;
+                      text-decoration: none;
+                    "
+                  >
+                    Devolver
+                  </button>
+                </form>
+                <span
+                  th:if="${loan.devolvido != null && loan.devolvido}"
+                  style="color: var(--vhs-cinza); font-style: italic"
+                >
+                  Já devolvido
+                </span>
               </td>
             </tr>
             <tr th:if="${#lists.isEmpty(loanList)}" class="vhs-row">
@@ -113,7 +130,9 @@
         </table>
 
         <div class="vhs-btn-add">
-          <a th:href="@{/loan/new}" class="register-btn">Novo Empréstimo</a>
+          <a th:href="@{/loan/new}" class="register-btn"
+            >Novo Empréstimo</a
+          >
           <a th:href="@{/admin}" class="register-btn">Voltar</a>
         </div>
       </section>

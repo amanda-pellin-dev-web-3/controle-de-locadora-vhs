@@ -37,6 +37,11 @@ public class LoanService {
         if (loan.getUser() == null) {
             throw new IllegalArgumentException("O usuário é obrigatório.");
         }
+        
+        if (loan.getDevolvido() == null) {
+            loan.setDevolvido(false);
+        }
+        
         return loanRepository.save(loan);
     }
 }

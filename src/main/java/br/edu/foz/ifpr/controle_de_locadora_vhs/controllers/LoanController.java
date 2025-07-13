@@ -77,6 +77,8 @@ public class LoanController {
         }
         try {
             Loan loan = new Loan();
+            loan.setDevolvido(false); // Definir explicitamente como false
+            
             List<VHS> vhsList = vhsService.findAll().stream()
                     .filter(vhs -> vhsIds.contains(vhs.getId()))
                     .toList();
@@ -88,22 +90,24 @@ public class LoanController {
                     return "redirect:/loan/new";
                 }
             }
+            
             User user = userService.findById(userId).orElseThrow(() -> new Exception("Usuário não encontrado"));
             loan.setVhsList(vhsList);
             loan.setUser(user);
             loan.setDataEmprestimo(dataEmprestimo);
             loan.setDataDevolucao(dataDevolucao);
             loanService.save(loan);
+            
             for (VHS vhs : vhsList) {
                 vhs.setStatus(TapeStatus.EMPRESTADA);
                 vhsService.save(vhs);
             }
 
             model.addFlashAttribute("success", "Empréstimo cadastrado com sucesso!");
-            return "redirect:/home";
+            return "redirect:/loan";
         } catch (Exception e) {
             model.addFlashAttribute("error", "Erro ao cadastrar empréstimo: " + e.getMessage());
-            return "redirect:/loan";
+            return "redirect:/admin";
         }
     }
     @PostMapping("/return/{id}")

@@ -22,7 +22,7 @@ public class Loan {
     private Long id;
     private LocalDate dataEmprestimo;
     private LocalDate dataDevolucao;
-    private Boolean devolvido;
+    private Boolean devolvido = false;
 
     @OneToMany
     private List<VHS> vhsList = new ArrayList<>();
