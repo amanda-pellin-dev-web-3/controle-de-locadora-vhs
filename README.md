@@ -23,7 +23,7 @@ Este projeto é um sistema web para controle de locadora de fitas VHS, desenvolv
 - Sistema completo de empréstimos com registro de datas
 - Controle de devolução de fitas emprestadas
 - Registro de status das fitas (disponível, emprestada, indisponível)
-- Interface web responsiva com Thymeleaf e CSS customizado
+- Interface web com Thymeleaf e CSS customizado
 
 ### Como o Sistema Funciona
 
